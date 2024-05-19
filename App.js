@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './components/home';
 import Authentication from './components/Auth';
 import LandingPage from './components/landing';
+import SearchPage from './components/search';
 
 const Stack = createStackNavigator();
 
@@ -15,11 +16,12 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Authentication">
+      <Stack.Navigator initialRouteName="LandingPage">
         <Stack.Screen name="Home" component={HomeScreen}  options={{ headerShown: false }} // Hide the header for this screen
         />
         <Stack.Screen name="LandingPage" component={LandingPage} options={{headerShown:false}} />
-        <Stack.Screen name='Authentication' component={Authentication} options={{headerShown:false}} />
+        <Stack.Screen name='Authentication' component={Authentication} options={{ headerShown: false }} />
+        <Stack.Screen name='Search' component={SearchPage} options={{headerShown:false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,0 +1,1 @@
+const supabasepassword = 'y_A/SRt,3?~c?f2'
