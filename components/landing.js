@@ -60,8 +60,8 @@ const LandingPage = () => {
         <TouchableOpacity>
           <Ionicons name="person-outline" size={30} />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="refresh-outline" size={30} />
+        <TouchableOpacity  onPress={()=>navigation.navigate("History")}>
+          <Ionicons name="refresh-outline" size={30}/>
         </TouchableOpacity>
       </View>
     </View>

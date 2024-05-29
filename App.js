@@ -11,6 +11,7 @@ import HomeScreen from "./components/home";
 import Authentication from "./components/Auth";
 import LandingPage from "./components/landing";
 import SearchPage from "./components/search";
+import PurchaseHistory from "./components/purschaseHistory";
 
 // Create the stack navigator
 const Stack = createStackNavigator();
@@ -39,6 +40,11 @@ const MainStack = () => (
       component={SearchPage}
       options={{ headerShown: false }}
     />
+    <Stack.Screen
+      name="History"
+      component={PurchaseHistory}
+      options={{ headerShown: true}}
+    />
   </Stack.Navigator>
 );
 
@@ -57,7 +63,7 @@ const App = () => {
     };
 
     return () => {
-      Drawer.removeDrawerListener(drawerListener);
+      // No need to remove the listener as it is not a function
     };
   }, [showImage]);
 
@@ -95,9 +101,11 @@ const CustomDrawerContent = (props) => {
           <Text style={styles.menuItem}>
             <Ionicons name="person-circle-outline" size={20} /> Profile{" "}
           </Text>
+      <TouchableOpacity onPress={() => navigation.navigate("History")}>
           <Text style={styles.menuItem}>
             <Ionicons name="cart-outline" size={20} /> Orders
           </Text>
+          </TouchableOpacity>
           <Text style={styles.menuItem}>
             <Ionicons name="pricetag-outline" size={20} /> Offer and Promo
           </Text>

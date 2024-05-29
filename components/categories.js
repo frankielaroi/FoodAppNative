@@ -25,13 +25,13 @@ const FoodTabView = () => {
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'breakfast':
-        return <FoodList category="breakfast" key="breakfast" />;
+        return <FoodList category="breakfast" key={route.key} />;
       case 'lunch':
-        return <FoodList category="lunch" key="lunch" />;
+        return <FoodList category="lunch" key={route.key} />;
       case 'dinner':
-        return <FoodList category="dinner" key="dinner" />;
+        return <FoodList category="dinner" key={route.key} />;
       case 'dessert':
-        return <FoodList category="dessert" key="dessert" />;
+        return <FoodList category="dessert" key={route.key} />;
       default:
         return null;
     }
