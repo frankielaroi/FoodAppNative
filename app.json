@@ -15,16 +15,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.frankie.FoodApp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/Group 3.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.frankie.FoodApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b5b88e76-f47f-4478-92ca-df5fc9a1fe0f"
+      }
     }
   }
 }

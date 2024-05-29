@@ -111,7 +111,7 @@ const SearchPage = ({ route }) => {
         renderItem={({ item }) => (
           <View style={styles.resultContainer}>
             <View style={{ alignItems: 'center' }}>
-              <View style={{backgroundColor:'#F9F9F9',borderRadius:100, bottom: 30,top:-20,  shadowColor: '#000',shadowOffset: { width: -0.1, height: -0.1 },shadowOpacity:0.3,shadowRadius: -2,elevation: -19,}}>
+              <View style={{backgroundColor:'#F2F2F2',borderRadius:100, bottom: 30,top:-20,  shadowColor: '#000',shadowOffset: { width: -0.1, height: -0.1 },shadowOpacity:0.3,shadowRadius: -2,elevation: -19,}}>
               <Image
                 source={{ uri: item.imageUrl }}
                 style={styles.resultImage}
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: "#F2F2F2",
     height: "200",
   },
   input: {
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   price: {
     flex: 1,
     color: '#FA4A0C',
-    fontSize:'17%'
+    fontSize:20
   },
     iconContainer: {
     display: "flex",

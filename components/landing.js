@@ -1,167 +1,78 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   TouchableOpacity,
   TextInput,
   Image,
-  Platform
+  Platform,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Drawer from "react-native-drawer";
 import { Text } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
+import FoodTabView from "./categories";
 
 const LandingPage = () => {
   const navigation = useNavigation();
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  const toggleDrawer = useCallback(() => {
-    setDrawerOpen((prev) => !prev);
-  }, []);
-
-  const closeDrawer = useCallback(() => {
-    setDrawerOpen(false);
-  }, []);
-
-  const SideDrawer = () => (
-    <View
-      style={{
-        backgroundColor: "#FA4A0C",
-        paddingTop: 50,
-        height: 700,
-        width: "500",
-      }}
-    >
-      <TouchableOpacity
-        onPress={closeDrawer}
-        style={{
-          alignSelf: "flex-end",
-          marginRight: 20,
-        }}
-      >
-        <Ionicons name="close-outline" size={40} color={"white"} />
-      </TouchableOpacity>
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        <View>
-          <Text
-            style={{
-              padding: 20,
-              color: "white",
-              fontSize: 15,
-              fontFamily: Platform.OS === 'android' ? 'serif' : undefined,
-            }}
-          >
-            <Ionicons name="person-circle-outline" size={20} /> Profile{" "}
-          </Text>
-          <Text
-            style={{
-              padding: 20,
-              color: "white",
-              fontSize: 15,
-              fontFamily: Platform.OS === 'android' ? 'serif' : undefined,
-            }}
-          >
-            <Ionicons name="cart-outline" size={20} /> Orders
-          </Text>
-          <Text
-            style={{
-              padding: 20,
-              color: "white",
-              fontSize: 15,
-              fontFamily: Platform.OS === 'android' ? 'serif' : undefined,
-            }}
-          >
-            <Ionicons name="pricetag-outline" size={20} /> offer and promo
-          </Text>
-          <Text
-            style={{
-              padding: 20,
-              color: "white",
-              fontSize: 15,
-              fontFamily: Platform.OS === 'android' ? 'serif' : undefined,
-            }}
-          >
-            <Ionicons name="receipt-outline" size={20} /> Privacy policy
-          </Text>
-          <Text
-            style={{
-              padding: 20,
-              color: "white",
-              fontSize: 15,
-              fontFamily: Platform.OS === 'android' ? 'serif' : undefined,
-            }}
-          >
-            <Ionicons name="shield-half-outline" size={20} /> Security
-          </Text>
-        </View>
-        <Image
-          source={require("../assets/image 10.png")}
-          style={{
-            resizeMode: "contain",
-            alignSelf: "flex-start",
-            height: 500,
-            width: 185,
-          }}
-        />
+  return (
+    <View style={styles.container}>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Ionicons name="menu-outline" size={30} />
+        </TouchableOpacity>
+        <Ionicons name="cart-outline" size={30} />
       </View>
       <Text
+        h2
         style={{
+          textAlign: "left",
           padding: 20,
-          color: "white",
-          fontSize: 15,
-          fontFamily: Platform.OS === 'android' ? 'serif' : undefined,
+          width: 250,
         }}
       >
-        {" "}
-        Sign-out <Ionicons name="arrow-forward-outline" size={15} />
+        Delicious Food For You
       </Text>
-    </View>
-  );
-
-  return (
-    <Drawer
-      open={drawerOpen}
-      onClose={closeDrawer}
-      type="overlay"
-      content={<SideDrawer />}
-    >
-      <View style={styles.container}>
-        <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={toggleDrawer}>
-            <Ionicons name="menu-outline" size={30} />
-          </TouchableOpacity>
-          <Ionicons name="cart-outline" size={30} />
-        </View>
-        <Text
-          h2
-          style={{
-            textAlign: "left",
-            padding: 20,
-            width: 250,
-          }}
-        >
-          Delicious Food For You
-        </Text>
-        <View style={styles.searchBarContainer}>
-          <Ionicons name="search-outline" size={20} style={styles.searchIcon} onPress={() => navigation.navigate("Search", { searchText })} />
-          <TextInput
-            style={styles.searchBar}
-            placeholder="Search..."
-            value={searchText}
-            onChangeText={setSearchText}
-            onSubmitEditing={() => navigation.navigate("Search", { searchText })}
-          />
-        </View>
+      <View style={styles.searchBarContainer}>
+        <Ionicons
+          name="search-outline"
+          size={20}
+          style={styles.searchIcon}
+          onPress={() => navigation.navigate("Search", { searchText })}
+        />
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Search..."
+          value={searchText}
+          onChangeText={setSearchText}
+          onSubmitEditing={() => navigation.navigate("Search", { searchText })}
+        />
       </View>
-    </Drawer>
+      <FoodTabView />
+      <View style={styles.footerContainer}>
+        <TouchableOpacity>
+          <Ionicons name="home-outline" size={30} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons name="heart-outline" size={30} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons name="person-outline" size={30} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons name="refresh-outline" size={30} />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: 59,
+    backgroundColor: '#F2F2F2',
+    height: '100%',
   },
   iconContainer: {
     display: "flex",
@@ -187,6 +98,11 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     marginRight: 8,
+  },
+  footerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 16,
   },
 });
 
