@@ -6,10 +6,12 @@ import {
   FlatList,
   ActivityIndicator,
   Dimensions,
+  TouchableOpacity
 } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { Image } from "react-native-elements";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -21,17 +23,18 @@ const FoodTabView = () => {
     { key: "dinner", title: "Dinner" },
     { key: "dessert", title: "Dessert" },
   ]);
+  const navigation = useNavigation()
 
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'breakfast':
-        return <FoodList category="breakfast" key={route.key} />;
+        return <FoodList category="breakfast" key={route.key} navigation={navigation} />;
       case 'lunch':
-        return <FoodList category="lunch" key={route.key} />;
+        return <FoodList category="lunch" key={route.key} navigation={navigation} />;
       case 'dinner':
-        return <FoodList category="dinner" key={route.key} />;
+        return <FoodList category="dinner" key={route.key} navigation={navigation} />;
       case 'dessert':
-        return <FoodList category="dessert" key={route.key} />;
+        return <FoodList category="dessert" key={route.key} navigation={navigation} />;
       default:
         return null;
     }
@@ -55,7 +58,7 @@ const FoodTabView = () => {
   );
 };
 
-const FoodList = ({ category }) => {
+const FoodList = ({ category, navigation }) => {
   const [foodItems, setFoodItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -92,8 +95,16 @@ const FoodList = ({ category }) => {
       numColumns={2}
       keyExtractor={(item, index) => `${category}-${index}`}
       renderItem={({ item }) => (
-        <View style={styles.resultContainer}>
-            <View style={{ alignItems: 'center', marginHorizontal: 10 }}>
+        <View style={styles.resultContainer} >
+          <TouchableOpacity  onPress={() => navigation.navigate('FoodItem', {
+        foodId: item.id,
+        foodName: item.name,
+        foodDescription: item.description,
+            foodImage: item.imageUrl,
+        foodPrice:item.price
+        , // Assuming the item has an image URL
+      })}>
+            <View style={{ alignItems: 'center', marginHorizontal: 10 }} >
               <View style={{backgroundColor:'#F2F2F2',borderRadius:100, bottom: 30,top:-20,  shadowColor: '#000',shadowOffset: { width: -0.1, height: -0.1 },shadowOpacity:0.3,shadowRadius: -2,elevation: -19,}}>
               <Image
                 source={{ uri: item.imageUrl }}
@@ -104,6 +115,7 @@ const FoodList = ({ category }) => {
               <Text style={styles.resultText}>{item.name}</Text>
               <Text style={styles.price}>GH₵{item.price}</Text>
             </View>
+          </TouchableOpacity>
           </View>
       )}
     />

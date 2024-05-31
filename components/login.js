@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Button } from "react-native-elements";
-import { Input } from "react-native-elements";
+import { Button, Input } from "react-native-elements";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { storeData } from "./storage";
 import { useNavigation } from "@react-navigation/native";
+import { useUser } from "./utils/userContext";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const { setUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,6 +29,7 @@ const LoginScreen = () => {
 
       if (response.status === 200) {
         await storeData("userToken", response.data.token);
+        setUser(response.data); // Set the user state globally
         Alert.alert("Success", `Logged in as ${email}`);
         navigation.navigate("LandingPage");
       } else {
@@ -66,7 +68,7 @@ const LoginScreen = () => {
         onPress={handleLogin}
       />
       <Text
-        onPress={() => console.log("fuck")}
+        onPress={() => console.log("Forgot Password")}
         style={{
           alignSelf: "center",
           paddingTop: 20,

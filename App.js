@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, TouchableOpacity, Image, Text, Platform, StyleSheet } from "react-native";
 import { AuthProvider } from "./components/utils/userContext";
+import FoodItemScreen from "./components/foodItem";
 import { Ionicons } from "@expo/vector-icons";
 import { UserProvider } from "./components/utils/userContext";
 
@@ -21,7 +22,7 @@ const Drawer = createDrawerNavigator();
 
 // Stack navigator for the main content
 const MainStack = () => (
-  <Stack.Navigator initialRouteName="Home">
+  <Stack.Navigator initialRouteName="LandingPage">
     <Stack.Screen
       name="Home"
       component={HomeScreen}
@@ -46,6 +47,11 @@ const MainStack = () => (
       name="History"
       component={PurchaseHistory}
       options={{ headerShown: true}}
+    />
+    <Stack.Screen
+      name="FoodItem"
+      component={FoodItemScreen}
+      options={{ headerShown: false }}
     />
   </Stack.Navigator>
 );
@@ -75,7 +81,7 @@ const App = () => {
 
 // Custom drawer content component
 const CustomDrawerContent = (props) => {
-  const { navigation, showImage } = props;
+  const { navigation } = props;
 
   return (
     <View style={styles.drawerContainer}>
@@ -105,12 +111,6 @@ const CustomDrawerContent = (props) => {
             <Ionicons name="shield-half-outline" size={20} /> Security
           </Text>
         </View>
-        {showImage && (
-          <Image
-            source={require("./assets/image 10.png")}
-            style={styles.drawerImage}
-          />
-        )}
       </View>
       <Text style={styles.signOutText}>
         Sign-out <Ionicons name="arrow-forward-outline" size={15} />
@@ -150,6 +150,8 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     height: 300,
     width: 200,
+    position: 'relative',
+    left:30
   },
   signOutText: {
     padding: 20,

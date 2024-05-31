@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { ScrollView, Alert, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storeData } from "./storage";
 import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
+import { useUser } from "./utils/userContext";
 
 export default function SignUp() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+  const { setUser } = useUser();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,8 +67,9 @@ export default function SignUp() {
 
         if (response.status === 201) {
           Alert.alert("Success", `Logged in as ${email}`);
-        await storeData("userToken", response.data.token);
-            navigation.navigate("LandingPage");
+          setUser(response.data); // Set the user state globally
+          await storeData("userToken", response.data.token);
+          navigation.navigate("LandingPage");
         } else {
           Alert.alert("Error", response.data.message || "An error occurred");
         }
