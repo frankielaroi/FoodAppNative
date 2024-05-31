@@ -4,7 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, TouchableOpacity, Image, Text, Platform, StyleSheet } from "react-native";
+import { AuthProvider } from "./components/utils/userContext";
 import { Ionicons } from "@expo/vector-icons";
+import { UserProvider } from "./components/utils/userContext";
 
 // Import your screens
 import HomeScreen from "./components/home";
@@ -19,7 +21,7 @@ const Drawer = createDrawerNavigator();
 
 // Stack navigator for the main content
 const MainStack = () => (
-  <Stack.Navigator initialRouteName="LandingPage">
+  <Stack.Navigator initialRouteName="Home">
     <Stack.Screen
       name="Home"
       component={HomeScreen}
@@ -50,24 +52,10 @@ const MainStack = () => (
 
 // Drawer navigator wrapping the main stack
 const App = () => {
-  const [showImage, setShowImage] = useState(false);
-
-  useEffect(() => {
-    const toggleImage = () => {
-      setShowImage(!showImage);
-    };
-
-    const drawerListener = {
-      drawerOpen: toggleImage,
-      drawerClose: toggleImage,
-    };
-
-    return () => {
-      // No need to remove the listener as it is not a function
-    };
-  }, [showImage]);
+  const [showImage, setShowImage] = useState(true);
 
   return (
+    <UserProvider>
     <NavigationContainer>
       <Drawer.Navigator
         initialRouteName="LandingPage"
@@ -80,7 +68,8 @@ const App = () => {
         />
         {/* Add other screens here if needed */}
       </Drawer.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+    </UserProvider>
   );
 };
 
