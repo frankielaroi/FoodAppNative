@@ -5,9 +5,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, TouchableOpacity, Image, Text, Platform, StyleSheet } from "react-native";
 import { AuthProvider } from "./components/utils/userContext";
-import FoodItemScreen from "./components/foodItem";
 import { Ionicons } from "@expo/vector-icons";
 import { UserProvider } from "./components/utils/userContext";
+import { CartProvider } from "./components/utils/cartContext";
 
 // Import your screens
 import HomeScreen from "./components/home";
@@ -15,6 +15,9 @@ import Authentication from "./components/Auth";
 import LandingPage from "./components/landing";
 import SearchPage from "./components/search";
 import PurchaseHistory from "./components/purschaseHistory";
+import CartScreen from "./components/cart";
+import FoodItemScreen from "./components/foodItem";
+import Profile from "./components/userDetails";
 
 // Create the stack navigator
 const Stack = createStackNavigator();
@@ -22,14 +25,14 @@ const Drawer = createDrawerNavigator();
 
 // Stack navigator for the main content
 const MainStack = () => (
-  <Stack.Navigator initialRouteName="LandingPage">
+  <Stack.Navigator initialRouteName="Start">
     <Stack.Screen
-      name="Home"
+      name="Start"
       component={HomeScreen}
       options={{ headerShown: false }}
     />
     <Stack.Screen
-      name="LandingPage"
+      name="Home"
       component={LandingPage}
       options={{ headerShown: false }}
     />
@@ -53,6 +56,14 @@ const MainStack = () => (
       component={FoodItemScreen}
       options={{ headerShown: false }}
     />
+    <Stack.Screen
+      name="Cart"
+      component={CartScreen}
+    />
+    <Stack.Screen
+      name="Profile"
+      component={Profile}
+    />
   </Stack.Navigator>
 );
 
@@ -62,6 +73,7 @@ const App = () => {
 
   return (
     <UserProvider>
+      <CartProvider>
     <NavigationContainer>
       <Drawer.Navigator
         initialRouteName="LandingPage"
@@ -74,8 +86,9 @@ const App = () => {
         />
         {/* Add other screens here if needed */}
       </Drawer.Navigator>
-      </NavigationContainer>
-    </UserProvider>
+        </NavigationContainer>
+    </CartProvider>
+ </UserProvider>
   );
 };
 

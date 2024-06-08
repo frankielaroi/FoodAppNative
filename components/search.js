@@ -1,3 +1,11 @@
+/**
+ * The SearchPage component is responsible for handling the search functionality in the application.
+ * It allows the user to search for items, displays the search results, and provides search suggestions.
+ *
+ * @param {Object} route - The route object containing the search text parameter.
+ * @param {string} route.searchText - The initial search text passed from the previous screen.
+ * @returns {JSX.Element} - The SearchPage component.
+ */
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -10,26 +18,33 @@ import {
 import { Image } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
+// SearchPage component
 const SearchPage = ({ route }) => {
+  // Get the navigation object from the useNavigation hook
   const navigation = useNavigation();
+  // Get the searchText parameter from the route
   const { searchText } = route.params;
-  const [searchTerm, setSearchTerm] = useState(searchText);
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  // State variables
+  const [searchTerm, setSearchTerm] = useState(searchText); // Search term
+  const [results, setResults] = useState([]); // Search results
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(""); // Error message
+  const [suggestions, setSuggestions] = useState([]); // Search suggestions
 
+  // Perform search when searchText changes
   useEffect(() => {
     handleSearch();
   }, [searchText]);
 
+  // Function to handle search
   const handleSearch = async () => {
-    setLoading(true);
-    setError("");
+    setLoading(true); // Set loading state to true
+    setError(""); // Clear error message
 
     try {
+      // Make a GET request to the search API
       const response = await axios.get(
         "https://backendnode-skls.onrender.com/search",
         {
@@ -37,8 +52,9 @@ const SearchPage = ({ route }) => {
         }
       );
 
-      setResults(response.data);
+      setResults(response.data); // Update search results
     } catch (err) {
+      // Handle errors
       if (err.response && err.response.status === 500) {
         console.error("Error searching for food: Internal Server Error");
         setError("Error searching for food. Please try again later.");
@@ -47,17 +63,19 @@ const SearchPage = ({ route }) => {
         setError("Error searching for food.");
       }
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading state to false
     }
   };
 
+  // Function to handle search suggestions
   const handleSuggestions = async (text) => {
-    setSearchTerm(text);
+    setSearchTerm(text); // Update search term
 
     if (text.trim() === "") {
-      setSuggestions([]);
+      setSuggestions([]); // Clear suggestions if search term is empty
     } else {
       try {
+        // Make a GET request to the search API for suggestions
         const response = await axios.get(
           "https://backendnode-skls.onrender.com/search",
           {
@@ -65,8 +83,9 @@ const SearchPage = ({ route }) => {
           }
         );
 
-        setSuggestions(response.data);
+        setSuggestions(response.data); // Update search suggestions
       } catch (err) {
+        // Handle errors
         if (err.response && err.response.status === 500) {
           console.error("Error fetching suggestions: Internal Server Error");
           setError("Error fetching suggestions. Please try again later.");
@@ -77,13 +96,21 @@ const SearchPage = ({ route }) => {
       }
     }
 
-    handleSearch();
+    handleSearch(); // Perform search after updating suggestions
   };
 
   return (
     <View style={styles.container}>
+      {/* Search bar container */}
       <View style={styles.searchBarContainer}>
-        <Ionicons name="chevron-back-outline" size={24} style={styles.searchIcon} onPress={() => navigation.navigate("LandingPage", { searchText })} />
+        {/* Back button */}
+        <Ionicons
+          name="chevron-back-outline"
+          size={24}
+          style={styles.searchIcon}
+          onPress={() => navigation.navigate("LandingPage", { searchText })}
+        />
+        {/* Search input */}
         <TextInput
           style={styles.searchBar}
           placeholder="Search..."
@@ -92,6 +119,7 @@ const SearchPage = ({ route }) => {
         />
       </View>
 
+      {/* Render search suggestions */}
       {suggestions.length > 0 && (
         <FlatList
           scrollEnabled={true}
@@ -111,9 +139,12 @@ const SearchPage = ({ route }) => {
         />
       )}
 
+      {/* Render loading indicator */}
       {loading && <ActivityIndicator size="large" color="#0000ff" />}
+      {/* Render error message */}
       {error && <Text style={styles.errorText}>{error}</Text>}
 
+      {/* Render search results */}
       <FlatList
         data={results}
         keyExtractor={(item) => (item.id ? item.id.toString() : "")}
@@ -136,6 +167,7 @@ const SearchPage = ({ route }) => {
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -183,12 +215,12 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   imageWrapper: {
-    backgroundColor: '#F2F2F2',
+    backgroundColor: "#F2F2F2",
     borderRadius: 50,
     padding: 10,
     marginBottom: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   resultImage: {
     width: 100,

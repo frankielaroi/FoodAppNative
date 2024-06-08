@@ -97,7 +97,7 @@ const FoodList = ({ category, navigation }) => {
       renderItem={({ item }) => (
         <View style={styles.resultContainer} >
           <TouchableOpacity  onPress={() => navigation.navigate('FoodItem', {
-        foodId: item.id,
+        foodId: item._id,
         foodName: item.name,
         foodDescription: item.description,
             foodImage: item.imageUrl,

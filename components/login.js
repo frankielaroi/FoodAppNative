@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, Alert } from "react-native";
 import { storeData } from "./storage";
 import { useNavigation } from "@react-navigation/native";
 import { useUser } from "./utils/userContext";
-
+import { jwt_decode } from "jwt-decode-es";
 const LoginScreen = () => {
   const navigation = useNavigation();
   const { setUser } = useUser();
@@ -28,10 +28,20 @@ const LoginScreen = () => {
       );
 
       if (response.status === 200) {
+        const decodedToken = jwt_decode(response.data.token);
+        console.log(decodedToken); // Log the decoded token to see its structure
+
+        const user = {
+          id: decodedToken._id, // Update this if the field name is different
+          token: response.data.token,
+          email,
+        };
+
         await storeData("userToken", response.data.token);
-        setUser(response.data); // Set the user state globally
+        setUser(user); // Set the user state globally
         Alert.alert("Success", `Logged in as ${email}`);
-        navigation.navigate("LandingPage");
+        console.log(user.id)
+        navigation.navigate("Home");
       } else {
         Alert.alert("Error", response.data.message);
       }

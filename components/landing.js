@@ -22,7 +22,9 @@ const LandingPage = () => {
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <Ionicons name="menu-outline" size={30} />
         </TouchableOpacity>
-        <Ionicons name="cart-outline" size={30} />
+        <TouchableOpacity onPress={()=>navigation.navigate("Cart")}>
+          <Ionicons name="cart-outline" size={30} />
+        </TouchableOpacity>
       </View>
       <Text
         h2
@@ -57,7 +59,7 @@ const LandingPage = () => {
         <TouchableOpacity>
           <Ionicons name="heart-outline" size={30} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Ionicons name="person-outline" size={30} />
         </TouchableOpacity>
         <TouchableOpacity  onPress={()=>navigation.navigate("History")}>

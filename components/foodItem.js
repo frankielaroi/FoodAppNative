@@ -1,17 +1,36 @@
 // FoodItemScreen.js
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image,TouchableOpacity } from "react-native";
+import AddToCartButton from "./utils/addtoCartButton";
 
 const FoodItemScreen = ({ route }) => {
-  const { foodId, foodName, foodDescription, foodImage,foodPrice } = route.params;
-
+  const { foodId, foodName, foodDescription, foodImage, foodPrice } =
+    route.params;
+  const item = {
+    id: foodId,
+    name: foodName,
+    description: foodDescription,
+    image: foodImage,
+    price: foodPrice,
+    quantity: 1,
+  };
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{foodName}</Text>
       <Image source={{ uri: foodImage }} style={styles.image} />
-          <Text style={styles.description}>{foodDescription}</Text>
-          <Text>{foodPrice}</Text>
-          <Text>All our foods are double checked before leaving our stores so by any case you found a broken food please contact our hotline immediately.</Text>
+      <Text style={styles.description}>{foodDescription}</Text>
+      <Text>{foodPrice}</Text>
+      <Text>
+        All our foods are double checked before leaving our stores so by any
+        case you found a broken food please contact our hotline immediately.
+      </Text>
+      <AddToCartButton
+        item={item}
+      />
+      <TouchableOpacity onPress={()=> console.log(foodId)}>
+        
+      </TouchableOpacity>
     </View>
   );
 };
