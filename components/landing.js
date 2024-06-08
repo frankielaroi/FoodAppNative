@@ -11,11 +11,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Text } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import FoodTabView from "./categories";
+import { useSelector } from "react-redux";
 
 const LandingPage = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
-
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>

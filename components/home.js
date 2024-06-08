@@ -2,16 +2,27 @@ import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import Preloader from "./preloader";
 import Intro from "./intro";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 const App = (navigation) => {
+  const navigatio = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
+  const user = useSelector((state) => state.user);
+  const isLoggedIn = user ? user.isLoggedIn : false;
+  console.log(isLoggedIn);
 
-  // Simulating asynchronous operation (e.g., fetching data)
   useEffect(() => {
     setTimeout(() => {
-      setIsLoading(false); // Set isLoading to false after some delay (simulating data fetching)
-    }, 2000); // Simulate a 2-second loading delay
+      setIsLoading(false);
+    }, 2000);
   }, []);
+
+  useEffect(() => {
+    if (!isLoading && isLoggedIn) {
+      navigatio.navigate("Home");
+    }
+  }, [isLoading, isLoggedIn, navigation]);
 
   return (
     <View
@@ -22,11 +33,8 @@ const App = (navigation) => {
         alignItems: "center",
       }}
     >
-      {isLoading ? (
-        <Preloader isLoading={isLoading} />
-      ) : (
-        <Intro {...navigation} />
-      )}
+      <Preloader isLoading={isLoading} />
+      {!isLoading && <Intro {...navigation} />}
     </View>
   );
 };

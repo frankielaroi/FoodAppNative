@@ -25,7 +25,7 @@ const Drawer = createDrawerNavigator();
 
 // Stack navigator for the main content
 const MainStack = () => (
-  <Stack.Navigator initialRouteName="Home">
+  <Stack.Navigator initialRouteName="Start">
     <Stack.Screen
       name="Start"
       component={HomeScreen}

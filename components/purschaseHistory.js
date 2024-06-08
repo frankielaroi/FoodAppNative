@@ -7,13 +7,14 @@ import {
   FlatList,
   Image,
 } from "react-native";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const PurchaseHistory = ({}) => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const userId = "65e722fb757bb8c112f9e84b";
+  const userId = useSelector((state)=> state.user.user.id)
   useEffect(() => {
     fetchPurchaseHistory();
   }, []);
