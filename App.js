@@ -1,14 +1,14 @@
 import "react-native-gesture-handler"; // Import this at the top of your entry file
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { View, TouchableOpacity, Image, Text, Platform, StyleSheet } from "react-native";
-import { AuthProvider } from "./components/utils/userContext";
+import { View, TouchableOpacity, Text, Platform, StyleSheet } from "react-native";
+import { store,persistor } from "./components/utils/redux/store";
 import { Ionicons } from "@expo/vector-icons";
-import { UserProvider } from "./components/utils/userContext";
+import { Provider } from "react-redux";
 import { CartProvider } from "./components/utils/cartContext";
-
+import { PersistGate } from "redux-persist/integration/react";
 // Import your screens
 import HomeScreen from "./components/home";
 import Authentication from "./components/Auth";
@@ -25,7 +25,7 @@ const Drawer = createDrawerNavigator();
 
 // Stack navigator for the main content
 const MainStack = () => (
-  <Stack.Navigator initialRouteName="Start">
+  <Stack.Navigator initialRouteName="Home">
     <Stack.Screen
       name="Start"
       component={HomeScreen}
@@ -72,7 +72,8 @@ const App = () => {
   const [showImage, setShowImage] = useState(true);
 
   return (
-    <UserProvider>
+    <Provider store={store}>
+    <PersistGate persistor={persistor} loading={null}>
       <CartProvider>
     <NavigationContainer>
       <Drawer.Navigator
@@ -88,7 +89,8 @@ const App = () => {
       </Drawer.Navigator>
         </NavigationContainer>
     </CartProvider>
- </UserProvider>
+      </PersistGate>
+    </Provider>
   );
 };
 

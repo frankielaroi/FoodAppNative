@@ -1,23 +1,48 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
+  useEffect(() => {
+    const loadCart = async () => {
+      try {
+        const cartData = await AsyncStorage.getItem("cart");
+        if (cartData !== null) {
+          setCart(JSON.parse(cartData));
+        }
+      } catch (error) {
+        console.error("Error loading cart from AsyncStorage:", error);
+      }
+    };
+
+    loadCart();
+  }, []);
+
+  useEffect(() => {
+    const saveCart = async () => {
+      try {
+        await AsyncStorage.setItem("cart", JSON.stringify(cart));
+      } catch (error) {
+        console.error("Error saving cart to AsyncStorage:", error);
+      }
+    };
+
+    saveCart();
+  }, [cart]);
+
   const addToCart = (item) => {
-    // Check if the item already exists in the cart
     const existingItemIndex = cart.findIndex(
       (cartItem) => cartItem.id === item.id
     );
 
     if (existingItemIndex !== -1) {
-      // If the item exists, update its quantity
       const updatedCart = [...cart];
       updatedCart[existingItemIndex].quantity += item.quantity || 1;
       setCart(updatedCart);
     } else {
-      // If the item doesn't exist, add it to the cart
       setCart((prevCart) => [
         ...prevCart,
         { ...item, quantity: item.quantity || 1 },

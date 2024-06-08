@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
-import { useUser } from './utils/userContext';
-
+import { useDispatch,useSelector } from 'react-redux';
 const Profile = () => {
-  const { user } = useUser();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+    const user = useSelector((state) => state.user.user)
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (!user || !user.token) {

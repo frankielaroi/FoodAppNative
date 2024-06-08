@@ -2,13 +2,13 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Input } from "react-native-elements";
 import { View, Text, StyleSheet, Alert } from "react-native";
-import { storeData } from "./storage";
 import { useNavigation } from "@react-navigation/native";
-import { useUser } from "./utils/userContext";
+import { login } from "./utils/redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 import { jwt_decode } from "jwt-decode-es";
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { setUser } = useUser();
+  const dispach = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -37,8 +37,7 @@ const LoginScreen = () => {
           email,
         };
 
-        await storeData("userToken", response.data.token);
-        setUser(user); // Set the user state globally
+        dispach(login(user))
         Alert.alert("Success", `Logged in as ${email}`);
         console.log(user.id)
         navigation.navigate("Home");
